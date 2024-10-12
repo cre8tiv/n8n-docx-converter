@@ -1,7 +1,5 @@
 import { IExecuteFunctions } from 'n8n-workflow';
 import { IDataObject, INodeExecutionData, INodeType, INodeTypeDescription, NodeOperationError } from 'n8n-workflow';
-import * as fs from 'fs';
-import * as path from 'path';
 import * as mammoth from 'mammoth';
 
 export class DocxToText implements INodeType {
@@ -18,12 +16,21 @@ export class DocxToText implements INodeType {
         outputs: ['main'],
         properties: [
             {
-                displayName: 'DOCX File',
-                name: 'docxFile',
+                displayName: 'Input Binary Field',
+                name: 'inputBinaryField',
                 type: 'string',
-                default: '',
-                placeholder: 'Path to the DOCX file',
-                description: 'The path to the DOCX file that you want to convert to text',
+                default: 'data',
+                placeholder: 'Input binary field containing the DOCX file',
+                description: 'The name of the input binary field containing the DOCX file',
+                required: true,
+            },
+            {
+                displayName: 'Destination Output Field',
+                name: 'destinationOutputField',
+                type: 'string',
+                default: 'text',
+                placeholder: 'Destination output field for the converted text',
+                description: 'The name of the destination output field for the converted text',
                 required: true,
             },
         ],
@@ -34,30 +41,22 @@ export class DocxToText implements INodeType {
         const returnData: IDataObject[] = [];
 
         for (let i = 0; i < items.length; i++) {
-            const docxFilePath = this.getNodeParameter('docxFile', i) as string;
+            const inputBinaryField = this.getNodeParameter('inputBinaryField', i) as string;
+            const destinationOutputField = this.getNodeParameter('destinationOutputField', i) as string;
 
-            if (!fs.existsSync(docxFilePath)) {
-                throw new NodeOperationError(this.getNode(), `File not found: ${docxFilePath}`);
+            const binaryData = await this.helpers.getBinaryDataBuffer(i, inputBinaryField);
+            if (!binaryData) {
+                throw new NodeOperationError(this.getNode(), `No binary data found for field "${inputBinaryField}"`);
             }
 
-            try {
-                // Convert DOCX to text
-                const result = await mammoth.extractRawText({ path: docxFilePath });
-                const text = result.value; // The raw text
+            const result = await mammoth.extractRawText({ buffer: binaryData });
+            const text = result.value;
 
-                // Save the text to an output file
-                const outputFilePath = path.join(path.dirname(docxFilePath), 'output.txt');
-                fs.writeFileSync(outputFilePath, text);
-
-                returnData.push({
-                    json: {
-                        docxFilePath,
-                        outputFilePath,
-                    },
-                });
-            } catch (error) {
-                throw new NodeOperationError(this.getNode(), `Error processing DOCX file: ${error.message}`);
-            }
+            returnData.push({
+                json: {
+                    [destinationOutputField]: text,
+                },
+            });
         }
 
         return [this.helpers.returnJsonArray(returnData)];

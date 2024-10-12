@@ -1,4 +1,4 @@
-# n8n-nodes-docx-to-text
+# n8n-nodes-docx-converter
 
 This is an n8n community node. It lets you use DOCX to Text conversion in your n8n workflows.
 
@@ -41,6 +41,8 @@ To use this node, provide the path to the DOCX file that you want to convert to 
 
 ## Version history
 
-### 1.0.0
-
+### 0.1.0
 - Initial release
+
+### 0.1.3 
+- Use input and output destinations

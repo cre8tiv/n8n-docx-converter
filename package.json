@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-docx-converter",
-  "version": "0.1.1",
+  "version": "0.1.3",
   "description": "A node to convert Docx to Text",
   "keywords": [
     "n8n-community-node-package"
@@ -56,8 +56,6 @@
     "n8n-workflow": "*"
   },
   "dependencies": {
-    "fs": "0.0.1-security",
-    "mammoth": "^1.8.0",
-    "path": "^0.12.7"
+    "mammoth": "^1.8.0"
   }
 }
