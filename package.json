@@ -1,19 +1,19 @@
 {
-  "name": "n8n-nodes-<...>",
+  "name": "n8n-nodes-docx-converter",
   "version": "0.1.0",
-  "description": "",
+  "description": "A node to convert Docx to Text",
   "keywords": [
     "n8n-community-node-package"
   ],
   "license": "MIT",
   "homepage": "",
   "author": {
-    "name": "",
-    "email": ""
+    "name": "Blake Martin",
+    "email": "info@cre8tivsystems.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/<...>/n8n-nodes-<...>.git"
+    "url": "https://github.com/cre8tiv/n8n-docx-converter"
   },
   "engines": {
     "node": ">=18.10",
@@ -36,12 +36,10 @@
   "n8n": {
     "n8nNodesApiVersion": 1,
     "credentials": [
-      "dist/credentials/ExampleCredentialsApi.credentials.js",
-      "dist/credentials/HttpBinApi.credentials.js"
+      "dist/credentials/DocxToTextCredentialsApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/ExampleNode/ExampleNode.node.js",
-      "dist/nodes/HttpBin/HttpBin.node.js"
+      "dist/nodes/ExampleNode/DocxToText.node.js"
     ]
   },
   "devDependencies": {
@@ -55,5 +53,10 @@
   },
   "peerDependencies": {
     "n8n-workflow": "*"
+  },
+  "dependencies": {
+    "fs": "0.0.1-security",
+    "mammoth": "^1.8.0",
+    "path": "^0.12.7"
   }
 }
