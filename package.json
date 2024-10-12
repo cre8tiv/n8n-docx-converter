@@ -39,7 +39,7 @@
       "dist/credentials/DocxToTextCredentialsApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/ExampleNode/DocxToText.node.js"
+      "dist/nodes/DocxToText/DocxToText.node.js"
     ]
   },
   "devDependencies": {
